@@ -1,4 +1,5 @@
 const pokeAPIBaseUrl = "https://pokeapi.co/api/v2/pokemon/";
+const dreamWorldBaseUrl = "https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/other/dream-world/";
 const game = document.getElementById('game');
 let isPaused = false;
 let firstPick;
@@ -36,14 +37,15 @@ const displayPokemon = (pokemon) => {
     const pokemonHTML = pokemon.map(pokemon => {
         const type = pokemon.types[0]?.type?.name || 'normal';
         const color = colors[type];
+        const dreamWorldImage = dreamWorldBaseUrl + pokemon.id + ".svg"; // Új sor: Kép URL-je a dream world mappából
         return `
     <div class="card" style="background-color:${color}" onclick="clickCard(event)"
                 data-pokename="${pokemon.name}">
                 <div class="front">
                 </div>
                 <div class="back rotated" style="background-color:${color}">
-                    <h2>${pokemon.name}</h2>
-                    <img src="${pokemon.sprites.front_default}" alt="${pokemon.name}"/>
+                    <span>${pokemon.name}</span>
+                    <img src="${dreamWorldImage}" alt="${pokemon.name}"/> <!-- Módosított sor: Kép URL-je -->
                 </div>
             </div>
     `
