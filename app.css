@@ -9,7 +9,7 @@ body {
     display: grid;
     align-items: center;
     justify-items: center;
-    grid-template-columns: repeat(3,1fr);
+    grid-template-columns: 300px repeat(2,1fr);
     grid-gap: 20px;
 }
 .container {
@@ -150,4 +150,41 @@ button {
     font-weight: 600;
     font-family: pokemon;
     letter-spacing: 10px;
+}
+@media (max-width: 700px) {
+    .left #timer {
+        display: none;
+    }
+    .mainc {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+    }
+    #game {
+        display: grid;
+        grid-template-columns: repeat(3, 100px);
+        grid-template-rows: repeat(5, 100px);
+        grid-gap: 10px;
+    }
+    .card img {
+        width: 3rem;
+        height: 3rem;
+    }
+    .conti {
+    position: relative;
+    top: 20px;
+    margin: 0 auto;
+    width: 90%;
+    height: 70%;
+    }
+    .game-start h2 {
+        font-size: 2.5rem;
+        padding-top: 20px;
+        padding-bottom: 20px;
+    }
+    .game-start button {
+        width: 60vw;
+        height: 15vw;
+        font-size: 1.6rem;
+    }
 }
