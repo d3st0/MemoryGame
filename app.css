@@ -162,13 +162,13 @@ button {
     }
     #game {
         display: grid;
-        grid-template-columns: repeat(3, 100px);
-        grid-template-rows: repeat(5, 100px);
+        grid-template-columns: repeat(3, 120px);
+        grid-template-rows: repeat(5, 120px);
         grid-gap: 10px;
     }
     .card img {
-        width: 3rem;
-        height: 3rem;
+        width: 3.5rem;
+        height: 3.5rem;
     }
     .conti {
     position: relative;
