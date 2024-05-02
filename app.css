@@ -159,6 +159,8 @@ button {
         display: flex;
         align-items: center;
         justify-content: center;
+        margin: 0 auto;
+        grid-gap: 0;
     }
     #game {
         display: grid;
@@ -167,8 +169,8 @@ button {
         grid-gap: 10px;
     }
     .card img {
-        width: 3.5rem;
-        height: 3.5rem;
+        width: 4rem;
+        height: 4rem;
     }
     .conti {
     position: relative;
