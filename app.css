@@ -5,6 +5,13 @@
 body {
     background-color: #ffcb05;
 }
+.mainc {
+    display: grid;
+    align-items: center;
+    justify-items: center;
+    grid-template-columns: repeat(3,1fr);
+    grid-gap: 20px;
+}
 .container {
     display: flex;
     justify-content: center;
@@ -12,11 +19,8 @@ body {
     align-items: center;
     font-family: pokemon;
     letter-spacing: 5px;
-    margin: 0 auto;
-    max-width: 800px;
-    padding: 20px;
-    background-color: #2a75bb;
-
+    border-radius: 30px;
+    margin-top: 40px;
 }
 header {
     display: flex;
@@ -28,7 +32,7 @@ header {
     display: grid;
     grid-template-columns: repeat(4, 160px);
     grid-template-rows: repeat(4, 160px);
-    grid-gap: 10px;
+    grid-gap: 30px;
 }
 .card {
     box-shadow: 0 3px 10px rgba(200, 200, 200, 0.9);
@@ -138,4 +142,11 @@ button {
     background-color: crimson;
     color: white;
     transform: scale(1.1);
+}
+.left #timer {
+    font-size: 3rem;
+    color: #c62828;
+    font-weight: 600;
+    font-family: pokemon;
+    letter-spacing: 10px;
 }

@@ -1,9 +1,13 @@
 const pokeAPIBaseUrl = "https://pokeapi.co/api/v2/pokemon/";
 const dreamWorldBaseUrl = "https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/other/dream-world/";
 const game = document.getElementById('game');
+const timerElement = document.getElementById('timer'); // Időmérő elem
 let isPaused = false;
 let firstPick;
 let matches;
+let timerInterval; // Időmérő intervallum
+let startTime; // Mérés kezdési időpontja
+let isTimerRunning = false; // Változó az időmérő állapotának nyomon követésére
 const colors = {
     fire: '#FDDFDF',
     grass: '#DEFDE0',
@@ -37,7 +41,7 @@ const displayPokemon = (pokemon) => {
     const pokemonHTML = pokemon.map(pokemon => {
         const type = pokemon.types[0]?.type?.name || 'normal';
         const color = colors[type];
-        const dreamWorldImage = dreamWorldBaseUrl + pokemon.id + ".svg"; // Új sor: Kép URL-je a dream world mappából
+        const dreamWorldImage = dreamWorldBaseUrl + pokemon.id + ".svg";
         return `
     <div class="card" style="background-color:${color}" onclick="clickCard(event)"
                 data-pokename="${pokemon.name}">
@@ -45,7 +49,7 @@ const displayPokemon = (pokemon) => {
                 </div>
                 <div class="back rotated" style="background-color:${color}">
                     <span>${pokemon.name}</span>
-                    <img src="${dreamWorldImage}" alt="${pokemon.name}"/> <!-- Módosított sor: Kép URL-je -->
+                    <img src="${dreamWorldImage}" alt="${pokemon.name}"/>
                 </div>
             </div>
     `
@@ -63,6 +67,10 @@ const clickCard = (event) => {
     if (!firstPick) {
         firstPick = pokemonCard;
         isPaused = false;
+        if (!isTimerRunning) { // Az időmérő csak akkor indul el, ha még nem fut
+            startTimer();
+            isTimerRunning = true;
+        }
     } else {
         const secondPokemonName = pokemonCard.dataset.pokename;
         const firstPokemonName = firstPick.dataset.pokename;
@@ -76,11 +84,43 @@ const clickCard = (event) => {
         } else {
             matches++;
             if (matches === 8) {
+                stopTimer(); // Időmérő leállítása, ha minden kártyának megvan a párja
+                setTimeout(() => {
+                    alert('Gratulálok! :)'); // Ha minden párnak megtalálták a párját, akkor "Sikerült!" alert
+                    window.location.href = 'index.html'; // A kívánt URL-re cseréld
+                }, 1000);
             }
             firstPick = 0;
             isPaused = false;
         }
     }
+}
+
+const startTimer = () => {
+    startTime = Date.now(); // Az időmérés kezdési időpontjának beállítása
+    timerInterval = setInterval(updateTimer, 1000); // Az időmérő indítása, frissítés minden másodpercben
+}
+
+const stopTimer = () => {
+    clearInterval(timerInterval); // Az időmérő leállítása
+    isTimerRunning = false; // Az időmérő állapotának frissítése: leállt
+}
+
+const updateTimer = () => {
+    const currentTime = Date.now(); // Az aktuális időpont lekérése
+    const elapsedTime = Math.floor((currentTime - startTime) / 1000); // Az eltelt idő kiszámítása másodpercekben
+
+    const hours = Math.floor(elapsedTime / 3600); // Órák számítása
+    const minutes = Math.floor((elapsedTime % 3600) / 60); // Percek számítása
+    const seconds = elapsedTime % 60; // Másodpercek számítása
+
+    const formattedTime = pad(hours) + ':' + pad(minutes) + ':' + pad(seconds); // Formázott idő készítése
+
+    timerElement.textContent = formattedTime; // Az időmérő elem frissítése a formázott idővel
+}
+
+const pad = (value) => {
+    return value < 10 ? '0' + value : value; // Kettőjegyű formátum biztosítása minden időegység számára
 }
 
 const rotateElements = (elements) => {
@@ -94,12 +134,13 @@ const getFrontAndBackFromCard = (card) => {
     return [front, back]
 }
 
-
 const resetGame = () => {
     game.innerHTML = '';
     isPaused = null;
     firstPick = null;
     matches = 0;
+    timerElement.textContent = '00:00:00'; // Az időmérő nullázása
+    stopTimer(); // Az időmérő leállítása
     setTimeout(async () => {
         const pokemon = await loadPokemon();
         displayPokemon([...pokemon, ...pokemon]);
